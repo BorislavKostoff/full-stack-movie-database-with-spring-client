@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import AppBarForm from "./components/AppBarForm"
+import { Routes, Route } from 'react-router-dom'
+import Home from "./pages/Home"
+import CreateMovie from './pages/CreateMovie'
+import EditMovie from "./pages/EditMovie"
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <AppBarForm />
+    <Routes>
+      <Route path="/" exact element={<Home />} />
+      <Route path="/create" element={<CreateMovie />} />
+      <Route path="/edit/:id" element={<EditMovie />} />
+    </Routes>
+    </>
+  )
 }
 
-export default App;
+export default App
