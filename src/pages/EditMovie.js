@@ -27,7 +27,7 @@ function EditMovie() {
   }, [])
 
   const formik = useFormik({
-    initialValues,
+    initialValues: initialValues,
     onSubmit: (values) => {
       values = initialValues
       axios.put(`http://localhost:8080/update/${id}`, values).then((response) => {  
@@ -44,7 +44,7 @@ function EditMovie() {
       <MovieForm onChange={(e) => setInitialValues({...initialValues, title: e.target.value})} value={initialValues.title} id='title' name='title' label='Title' type='text' />
       <MovieForm onChange={(e) => setInitialValues({...initialValues, director: e.target.value})} value={initialValues.director} id='director' name='director' label='Director' type='text' />
       <MovieForm onChange={(e) => setInitialValues({...initialValues, distributor: e.target.value})} value={initialValues.distributor} id='distributor' name='distributor' label='Distributor' type='text' />
-      <MovieForm value={initialValues.rating} id='distributor' name='distributor' label='Rating' type='text' />
+      <MovieForm value={initialValues.rating} id='rating' name='rating' label='Rating' type='text' />
       <MovieForm value={initialValues.numberOfVotes} id='numberOfVotes' name='distributor' label='Votes' type='text' />
       <ButtonForm type='submit' variant='contained' buttonName='Submit Changes' />
     </ContainerForm>

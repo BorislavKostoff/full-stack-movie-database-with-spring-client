@@ -47,8 +47,22 @@ function Row({ row }) {
           name="simple-controlled"
           value={value}
           onChange={(event, newValue) => {
-            setValue(newValue)
-            setVotes(votes + 1)
+            if(value === 0 && votes === 0) {
+              setValue(newValue)
+             let values = {...row, rating: `${newValue}`, numberOfVotes: "1"}
+              axios.put(`http://localhost:8080/update/${values.id}`, values).then((response) => {  
+              window.location.reload()
+              })
+            } else {
+              let val = Math.ceil(((value * votes) + newValue)/(votes+1))
+              setVotes(votes + 1)
+              let vot = (votes + 1)
+              let values = {...row, rating: `${val}`, numberOfVotes: `${vot}`}
+              axios.put(`http://localhost:8080/update/${values.id}`, values).then((response) => { 
+              window.location.reload()
+              })
+            }
+            
           }} 
           />
         </TableCell>
@@ -59,7 +73,8 @@ function Row({ row }) {
         <TableCell align="left">
             <ButtonForm variant='contained' type='button' buttonName='Delete' onClick={() => {
               axios.delete(`http://localhost:8080/delete/${row.id}`).then((response) => {
-                navigate("/")
+                alert("Movie has been deleted!")
+                window.location.reload()
               })
             }} />
         </TableCell>
