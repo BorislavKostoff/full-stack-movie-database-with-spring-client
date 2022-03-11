@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import SearchForm from './SearchForm'
 
+
 function Row({ row }) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(row.rating)
@@ -53,11 +54,11 @@ function Row({ row }) {
         </TableCell>
         <TableCell align="center">{votes}</TableCell>
         <TableCell align="right">
-            <ButtonForm variant='contained' type='button' buttonName='Edit' onClick={() => {navigate('/edit/'+row.id)}} />
+            <ButtonForm variant='contained' type='button' buttonName='Edit' onClick={() => {navigate(`/edit/${row.id}`)}} />
         </TableCell>
         <TableCell align="left">
             <ButtonForm variant='contained' type='button' buttonName='Delete' onClick={() => {
-              axios.delete("http://localhost:8080/delete/"+row.id).then((response) => {
+              axios.delete(`http://localhost:8080/delete/${row.id}`).then((response) => {
                 navigate("/")
               })
             }} />
@@ -78,9 +79,24 @@ function Row({ row }) {
 
 function TableMovies({ moviesList }) {
 
+  const [rows, setRows] = useState(moviesList)
+  const [searched, setSearched] = useState("")
+
+  const requestSearch = (searchedValed) => {
+    let searchValue = searchedValed.target.value
+    setSearched(searchValue)
+    const filteredRows = moviesList.filter((row) => {
+      return row.title.toLowerCase().includes(searchValue.toLowerCase())
+    })
+    setRows(filteredRows)
+  }
+
   return (
     <>
-    <SearchForm />
+    <SearchForm
+      value={searched}
+      onChange={(searchVal) => requestSearch(searchVal)}
+    />
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
@@ -94,7 +110,9 @@ function TableMovies({ moviesList }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {moviesList.map((row) => (
+          {searched !== "" ? rows.map((row) => (
+            <Row key={row.id} row={row} />
+          )) : moviesList.map((row) => (
             <Row key={row.id} row={row} />
           ))}
         </TableBody>

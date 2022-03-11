@@ -3,7 +3,7 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 
-function SearchForm(props) {
+function SearchForm({ onChange, value }) {
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -54,8 +54,11 @@ function SearchForm(props) {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              autoFocus
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={onChange}
+              value={value}
             />
           </Search>
     </div>
